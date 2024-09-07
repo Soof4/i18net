@@ -1,3 +1,6 @@
 i18net/bin/
 i18net/obj/
 i18net/i18net/
+i18net/Localization.cs
+i18net/LocalizationManager.cs
+publish/

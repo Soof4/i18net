@@ -11,7 +11,6 @@ namespace i18net
         public string DefaultLang = "en_US";
         public string BaseDir = "i18net";
         public string LanguageFilesDir = "i18net/lang";
-        public string LocalizationFileDir = "./";
 
         public static void Reload()
         {

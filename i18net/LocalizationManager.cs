@@ -41,6 +41,7 @@ namespace i18net
                 FieldInfo? field = type.GetField(key, BindingFlags.Static | BindingFlags.Public);
 
                 if (field == null) continue;
+
                 field.SetValue(null, value);
             }
 
