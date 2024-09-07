@@ -10,7 +10,7 @@ namespace i18net
         public string Namespace = "my_namespace";
         public string DefaultLang = "en_US";
         public string BaseDir = "i18net";
-        public string LanguageFilesDir = "i18net/lang";
+        public string LanguageFilesDir = "lang";
 
         public static void Reload()
         {
