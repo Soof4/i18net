@@ -95,7 +95,7 @@ namespace i18net
             wfs.Close();
         }
 
-        private static void GenerateDefaultLangFile()
+        internal static void GenerateDefaultLangFile()
         {
             string path = Configuration.Config.LanguageFilesDir;
 

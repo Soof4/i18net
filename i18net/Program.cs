@@ -10,10 +10,12 @@
                 GenerationManager.GenerateLocalization();
                 GenerationManager.GenerateLocalizationManager();
             }
-            catch (Exception e)
+            catch
             {
-                Print($"i18net could not read the default language file.\n{e.Message}", ConsoleColor.Red);
-                return;
+                GenerationManager.GenerateDefaultLangFile();
+                GenerationManager.GenerateLocalization();
+                GenerationManager.GenerateLocalizationManager();
+                Print("i18net could not find the default language file. Thus, generated the example language file.", ConsoleColor.Yellow);
             }
 
             Print("i18net successfully generated the Localization.cs file.", ConsoleColor.Green);
