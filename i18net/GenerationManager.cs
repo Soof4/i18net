@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace i18net
 {
@@ -8,8 +9,15 @@ namespace i18net
 
         internal static void GenerateLocalization()
         {
-            FileStream rfs = FileManager.OpenFile(Configuration.Config.LanguageFilesDir + "/" + Configuration.Config.DefaultLang + ".json", FileMode.Open, GenerateDefaultLangFile);
-            StreamReader sr = new StreamReader(rfs);
+            string path = Path.Join(Configuration.Config.LanguageFilesDir, Configuration.Config.DefaultLang + ".json");
+
+            Dictionary<string, string>? kvps = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
+
+            // If kvps is null then make it empty dictionary so we can generate empty Localization class
+            if (kvps == null)
+            {
+                kvps = new Dictionary<string, string>();
+            }
 
             FileStream wfs = File.Open(Path.Combine(Configuration.Config.BaseDir, "Localization.cs"), FileMode.Create);
             StreamWriter sw = new StreamWriter(wfs);
@@ -17,26 +25,16 @@ namespace i18net
             sw.WriteLine($"namespace {Configuration.Config.Namespace} \n{{");
             sw.WriteLine("    public static class Localization\n    {");
 
-            while (true)
+            foreach (var kvp in kvps)
             {
-                string? line = sr.ReadLine();
-
-                if (line == null) break;
-                if (!PairRegex.IsMatch(line)) continue;
-
-                string[] pair = line.Split(":");
-                string key = pair[0].Trim().Trim('"');
-                string value = pair[1].Trim().Trim(',').Trim('"');
-
-                sw.WriteLine($"        public static string {key} = \"{value}\";");
+                sw.WriteLine($"        public static string {kvp.Key} = \"{kvp.Value}\";");
             }
 
             sw.WriteLine("    }\n}");
 
-            sr.Close();
-            rfs.Close();
             sw.Close();
             wfs.Close();
+
         }
 
         internal static void GenerateLocalizationManager()
