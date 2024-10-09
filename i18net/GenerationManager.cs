@@ -27,7 +27,8 @@ namespace i18net
 
             foreach (var kvp in kvps)
             {
-                sw.WriteLine($"        public static string {kvp.Key} = \"{kvp.Value}\";");
+                string v = System.Text.Json.JsonSerializer.Serialize(kvp.Value);
+                sw.WriteLine($"        public static string {kvp.Key} = {v};");
             }
 
             sw.WriteLine("    }\n}");
